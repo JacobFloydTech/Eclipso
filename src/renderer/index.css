@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+html, body, #root, #root > div {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #282832;
+  color: white;
+}
+
+.inputForm { 
+    @apply w-full rounded-sm outline-black text-black placeholder:text-black p-1;
+}
+
+.friendButtons { 
+    @apply px-2 py-1 m-2 border-2 border-gray-800 rounded-xl text-white text-lg;
+}

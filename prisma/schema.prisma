@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  username         String       @id @unique
+  password         String
+  publicKey        String       @db.Text
+  Icon             String?      @default("data:image/png;base64,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") @db.VarChar(10000)
+  friendsReceived  Friendship[] @relation("UserReceivedFriendRequests")
+  friendsSent      Friendship[] @relation("UserSentFriendRequests")
+  receivedMessages Message[]    @relation("UserReceivedMessages")
+  sentMessages     Message[]    @relation("UserSentMessages")
+}
+
+model Message {
+  id               Int        @id @default(autoincrement())
+  friendshipID     Int
+  senderUsername   String
+  receiverUsername String
+  encryptedMessage String     @db.Text
+  time             DateTime   @default(now())
+  senderIV         String     @db.Text
+  recieverIV       String     @db.Text
+  friendship       Friendship @relation(fields: [friendshipID], references: [id])
+  receiver         User       @relation("UserReceivedMessages", fields: [receiverUsername], references: [username])
+  sender           User       @relation("UserSentMessages", fields: [senderUsername], references: [username])
+
+  @@index([friendshipID], map: "Message_friendshipID_fkey")
+  @@index([receiverUsername], map: "Message_receiverUsername_fkey")
+  @@index([senderUsername], map: "Message_senderUsername_fkey")
+}
+
+model Friendship {
+  id                   Int       @id @default(autoincrement())
+  senderUsername       String
+  receiverUsername     String
+  createdAt            DateTime  @default(now())
+  accepted             Boolean   @default(false)
+  senderEncryptedKey   String    @db.Text
+  recieverEncryptedKey String    @db.Text
+  receiver             User      @relation("UserReceivedFriendRequests", fields: [receiverUsername], references: [username])
+  sender               User      @relation("UserSentFriendRequests", fields: [senderUsername], references: [username])
+  Message              Message[]
+
+  @@index([receiverUsername], map: "Friendship_receiverUsername_fkey")
+  @@index([senderUsername], map: "Friendship_senderUsername_fkey")
+}
