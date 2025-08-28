@@ -82,7 +82,7 @@ export default function Chat({
 
   return (
     <div className="flex relative bg-[#202024] text-gray-200 w-full overflow-auto flex-col h-full">
-      <div id="messagelist" className="flex-1 overflow-y-scroll text-white px-2">
+      <div id="messagelist" className="flex-1  mr-2 overflow-y-scroll text-white px-2">
         <h2 className="text-center w-full italic mt-12 mb-4 text-gray-500 ">
           Chatting with {username}
         </h2>
@@ -162,11 +162,14 @@ function MessageComponent({
         message.receiverUsername == username ? 'justify-start' : 'justify-end'
       } `}
     >
-      <div className="max-w-[60%]">
+      <div className="max-w-[60%] flex flex-col  ">
         <h1
-          className={`relative text-lg ${
-            message.receiverUsername == username ? 'bg-blue-400' : 'bg-green-400'
-          } break-all text-lg 2xl:text-xl w-auto inline-block px-2 py-1 rounded-xl text-black`}
+          className={`relative break-all text-lg 2xl:text-xl w-fit inline-block px-2 py-1 rounded-xl text-black
+      ${
+        message.receiverUsername === username
+          ? 'bg-blue-400 self-start mr-auto' // message from them → left side
+          : 'bg-green-400 self-end ml-auto' // message from me → right side
+      }`}
         >
           {message.encryptedMessage}
         </h1>

@@ -3,8 +3,9 @@ import SearchUsers from './searchUsers'
 import Chat from './chat'
 import HoverAdd from './hoverAdd'
 import { Message } from '@renderer/env'
+import SearchContacts from './searchContacts'
 
-type ShortFriend = { username: string; publicKey: string; Icon: string }
+export type ShortFriend = { username: string; publicKey: string; Icon: string }
 
 export default function Homepage({
   setLogin,
@@ -16,11 +17,13 @@ export default function Homepage({
   const [messages, setMessages] = useState<Array<Message>>([])
   const [chat, setChat] = useState<null | ShortFriend>(null)
   const [friends, setFriends] = useState<Array<ShortFriend>>([])
+  const [fullFriends, setFullFriends] = useState<Array<ShortFriend>>([])
   const [icon, setIcon] = useState('')
   const [hoverAdd, setHoverAdd] = useState(false)
   const loadFriends = async (): Promise<void> => {
     const friendships = await window.api.getFriends(login)
     setFriends(friendships)
+    setFullFriends(friendships)
   }
   const loadImage = async (): Promise<void> => {
     const image = await window.api.getUserImage(login)
@@ -53,10 +56,7 @@ export default function Homepage({
               >
                 Add Users
               </button>
-              <input
-                className="outline-none mt-2 border-b-transparent border-b-2 focus:border-b-gray-100 w-full text-sm 2xl:text-lg px-4 py-2 bg-[rgba(100,100,100,0.2)] "
-                placeholder="🔎  Search contacts"
-              />
+              <SearchContacts fullFriends={fullFriends} setFriends={setFriends} />
             </h1>
             {friends.map((f, i) => {
               return (
@@ -151,7 +151,7 @@ const FriendComponent = ({
     }
   }
   useEffect(() => {
-    getLastMessage()
+    setTimeout(() => getLastMessage(), 2000)
   }, [messages, setMessages])
   return (
     <div
@@ -163,11 +163,11 @@ const FriendComponent = ({
       {chat?.publicKey == friend.publicKey && (
         <div className="absolute h-2/3 left-0 top-1/2 -translate-y-1/2 w-1 bg-blue-400 rounded-r-lg" />
       )}
-      <img className="rounded-full w-8 h-8 2xl:h-12 2xl:w-12 mr-4" src={`${friend.Icon}`} />
+      <img className="rounded-full w-10 h-10 2xl:h-12 2xl:w-12 mr-4" src={`${friend.Icon}`} />
       <div className="w-full">
         <h2 className="text-base 2xl:text-lg">{friend.username}</h2>
         <div className="flex  justify-between items-center">
-          <p className="text-sm 2xl:text-base text-gray-400 italic">
+          <p className="text-sm  h-7 2xl:text-base text-gray-400 italic">
             {lastMessage?.encryptedMessage}
           </p>
           <p className="text-[8px] 2xl:text-sm float-right">{getHumanDate(lastMessage?.time)}</p>

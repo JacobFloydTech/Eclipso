@@ -23,12 +23,12 @@ export default function SearchUsers({ username }: { username: string }): JSX.Ele
             placeholder="Search"
             className="px-2 py-1  w-full text-2xl placeholder:text-gray-300 text-gray-300 outline-none bg-transparent"
           />
-          <button onClick={searchUsers} className="p-[5px] h-12 border-2 w-12">
+          <button onClick={searchUsers} className="p-[5px] h-12  w-12">
             <SearchButton />
           </button>
         </div>
-        {users.map((el, i) => {
-          return <User sender={username} key={i} user={el} />
+        {users.map((el) => {
+          return <User sender={username} key={el.username} user={el} />
         })}
       </div>
     </div>
@@ -88,7 +88,7 @@ function User({ sender, user }: { sender: string; user: User }): JSX.Element {
     checkFriendStatus()
   }, [])
   return (
-    <div className="flex items-center  rounded-xl  justify-around w-full mx-auto">
+    <div className="flex items-center mb-4 rounded-xl  justify-between w-full mx-auto">
       <div className="flex space-x-2 items-center">
         <img className="w-10 xl:w-12 2xl:w-14 aspect-square" src={user.Icon} />
         <h1 className="text-2xl">{user.username}</h1>
@@ -114,7 +114,7 @@ function User({ sender, user }: { sender: string; user: User }): JSX.Element {
   )
 }
 
-function SearchButton(): JSX.Element {
+export function SearchButton(): JSX.Element {
   return (
     <svg
       fill="#4b5563"

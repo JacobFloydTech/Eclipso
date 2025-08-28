@@ -36,7 +36,7 @@ export default function BaseForm({
           </div>
           <p className="text-base italic mt-4">Privacy for all</p>
           <div className="flex mt-2 flex-col">
-            <p className="text-xs mt-2 text-left">
+            <div className="text-xs mt-2 text-left">
               {error ? (
                 <div className="text-red-400 font-bold">
                   Email - <span className="italic font-normal">Login or password is invalid</span>
@@ -46,14 +46,14 @@ export default function BaseForm({
                   Email <span className="text-red-500">*</span>
                 </div>
               )}
-            </p>
+            </div>
             <input
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               type="text"
               className={`bg-[#28292d] mt-1 h-8 rounded-md w-full ${error ? 'outline outline-solid outline-red-400' : 'outline-blue-500 focus:outline focus:outline-solid'} px-2 py-4 border-[#3e3f44]`}
             />
-            <p className="text-xs text-left mt-4">
+            <div className="text-xs text-left mt-4">
               {error ? (
                 <div className="text-red-400 font-bold">
                   Password -{' '}
@@ -64,7 +64,7 @@ export default function BaseForm({
                   Password <span className="text-red-500">*</span>
                 </div>
               )}
-            </p>
+            </div>
             <input
               value={password}
               onChange={(e) => setPassword(e.target.value)}
