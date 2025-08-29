@@ -44,8 +44,7 @@ export default function Homepage({
           <div className="h-auto overflow-y-scroll">
             <h1 className="text-2xl mb-4 m-2 text-center font-semibold">
               <div className="flex w-full justify-center space-x-2 mb-4 items-center">
-                <p>Eclipso</p>
-                <Lock />
+                <p className="eclipso">Eclipso</p>
               </div>
               <button
                 onClick={() => {
@@ -161,16 +160,14 @@ const FriendComponent = ({
       }}
     >
       {chat?.publicKey == friend.publicKey && (
-        <div className="absolute h-2/3 left-0 top-1/2 -translate-y-1/2 w-1 bg-blue-400 rounded-r-lg" />
+        <div className="absolute h-2/3 left-0 top-1/2 -translate-y-1/2 w-1 bg-[rgb(255,64,64)] rounded-r-lg" />
       )}
       <img className="rounded-full w-10 h-10 2xl:h-12 2xl:w-12 mr-4" src={`${friend.Icon}`} />
       <div className="w-full">
         <h2 className="text-base 2xl:text-lg">{friend.username}</h2>
-        <div className="flex  justify-between items-center">
-          <p className="text-sm  h-7 2xl:text-base text-gray-400 italic">
-            {lastMessage?.encryptedMessage}
-          </p>
-          <p className="text-[8px] 2xl:text-sm float-right">{getHumanDate(lastMessage?.time)}</p>
+        <div className="flex h-7 justify-between items-center">
+          <p className="text-sm    text-gray-400 italic">{lastMessage?.encryptedMessage}</p>
+          <p className="text-[8px] 2xl:text-xs float-right">{getHumanDate(lastMessage?.time)}</p>
         </div>
       </div>
     </div>
@@ -203,8 +200,8 @@ export function Lock(): JSX.Element {
 function Logout(): JSX.Element {
   return (
     <svg
-      fill="#000000"
-      className="w-full h-full border-2 rounded-full border-gray-400"
+      fill="rgb(255,64,64)"
+      className="w-full h-full border-2 border-[rgb(255,64,64)] rounded-full "
       version="1.1"
       id="Layer_1"
       xmlns="http://www.w3.org/2000/svg"

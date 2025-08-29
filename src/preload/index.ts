@@ -7,6 +7,8 @@ const rsa = forge.pki.rsa
 import dotenv from 'dotenv'
 import type { Message } from '@prisma/client'
 import { Friendship, PrismaClient } from '@prisma/client'
+import { encryptPrivateKey, decryptPrivateKey } from './privateKeyFunctions'
+import path from 'node:path'
 
 const prisma = new PrismaClient()
 dotenv.config()
@@ -35,11 +37,12 @@ const api = {
         if (error) return reject('Error')
         const publicKey = forge.pki.publicKeyToPem(kp.publicKey)
         const privateKey = forge.pki.privateKeyToPem(kp.privateKey)
+        const encryptedPrivateKey = encryptPrivateKey(privateKey, password)
         api.createUserDatabase(username, password, publicKey).then((result) => {
           if (result) {
             fs.writeFileSync(
               `${home}/anonchatapp/${username}.json`,
-              JSON.stringify({ publicKey, privateKey, login: true }),
+              JSON.stringify({ publicKey, privateKey: encryptedPrivateKey, login: true }),
               'utf-8'
             )
             resolve('Created')
@@ -56,15 +59,33 @@ const api = {
     if (user.password != password) return false
     return true
   },
-  loginAccount: async (username: string, password: string): Promise<boolean> => {
-    const path = `${home}/anonchatapp/${username}.json`
+  loginAccount: async (
+    username: string,
+    password: string
+  ): Promise<{ success: boolean; privateKey?: string }> => {
+    const userFilePath = path.join(home, 'anonchatapp', `${username}.json`)
+
+    // 1️⃣ Check server login (or local DB)
     const result = await api.loginDatabase(username, password)
-    if (!result) return false
-    const data = JSON.parse(fs.readFileSync(path, { encoding: 'utf-8' }))
-    data.login = true
-    api.user = username
-    fs.writeFileSync(path, JSON.stringify(data), 'utf-8')
-    return true
+    if (!result) return { success: false }
+
+    // 2️⃣ Load local user file
+    const data = JSON.parse(fs.readFileSync(userFilePath, { encoding: 'utf-8' }))
+
+    // 3️⃣ Decrypt private key
+    try {
+      const privateKeyPem = decryptPrivateKey(data.privateKey, password)
+
+      // 4️⃣ Update login flag and store user context
+      data.login = true
+      api.user = username
+      fs.writeFileSync(userFilePath, JSON.stringify(data), 'utf-8')
+
+      return { success: true, privateKey: privateKeyPem }
+    } catch (err) {
+      console.error('Failed to decrypt private key:', err)
+      return { success: false }
+    }
   },
   checkLogin: (): null | string => {
     try {
@@ -91,16 +112,6 @@ const api = {
     } catch (error) {
       return
     }
-  },
-  saveKeyLocally: (username: string, friend: string, key: string): void => {
-    const path = `${home}/anonchatapp/${username}.json`
-    const data = JSON.parse(fs.readFileSync(path, { encoding: 'utf-8' }))
-    if (!data.friendships) {
-      data.friendships = { [friend]: key }
-    } else {
-      data.friendships[friend] = key
-    }
-    fs.writeFileSync(path, JSON.stringify(data), { encoding: 'utf-8' })
   },
   getFriends: async (username: string): Promise<Array<any>> => {
     const users = (

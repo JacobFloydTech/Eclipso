@@ -22,7 +22,9 @@ export default function BaseForm({
   const login = (): void => {
     if (!username || !password) return
     window.api.loginAccount(username, password).then((status) => {
-      if (status) return setLogin(username)
+      if (status) {
+        setLogin(username)
+      }
       setError(true)
     })
   }
@@ -77,13 +79,13 @@ export default function BaseForm({
             <div className="flex space-x-4">
               <button
                 onClick={login}
-                className="text-white outline-blue-300 focus:outline focus:outline-solid outline-2 bg-[#5765f2] w-full p-2 rounded-md my-2"
+                className="text-white outline-blue-300 focus:outline focus:outline-solid outline-2 bg-[rgb(255,64,64)] w-full p-2 rounded-md my-2"
               >
                 Log In
               </button>
               <button
                 onClick={createAccount}
-                className="text-white outline-blue-300 focus:outline focus:outline-solid outline-2 bg-[#5765f2] w-full p-2 rounded-md my-2"
+                className="text-white outline-blue-300 focus:outline focus:outline-solid outline-2 bg-[rgb(255,64,64)] w-full p-2 rounded-md my-2"
               >
                 Sign Up
               </button>

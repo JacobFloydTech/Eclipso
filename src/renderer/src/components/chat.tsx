@@ -100,7 +100,7 @@ export default function Chat({
             placeholder="Send message here"
           />
           <button
-            className="bg-[#5765f2] outline-none rounded-md p-1 my-1"
+            className="bg-[rgb(255,64,64)] outline-none rounded-md p-1 my-1"
             onClick={() => sendMessage(true)}
           >
             <Enter />
@@ -167,8 +167,8 @@ function MessageComponent({
           className={`relative break-all text-lg 2xl:text-xl w-fit inline-block px-2 py-1 rounded-xl text-black
       ${
         message.receiverUsername === username
-          ? 'bg-blue-400 self-start mr-auto' // message from them → left side
-          : 'bg-green-400 self-end ml-auto' // message from me → right side
+          ? 'bg-gray-400 self-start mr-auto' // message from them → left side
+          : 'bg-[rgb(255,64,64)] self-end ml-auto' // message from me → right side
       }`}
         >
           {message.encryptedMessage}

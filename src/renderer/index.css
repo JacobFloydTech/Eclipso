@@ -17,3 +17,17 @@ html, body, #root, #root > div {
 .friendButtons { 
     @apply px-2 py-1 m-2 border-2 border-gray-800 rounded-xl text-white text-lg;
 }
+
+.eclipso { 
+  background: linear-gradient(90deg, rgba(255, 64, 64, 1) 0%, rgba(199, 158, 87, 1) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#lock { 
+  background: linear-gradient(90deg, rgba(255, 64, 64, 1) 0%, rgba(199, 158, 87, 1) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

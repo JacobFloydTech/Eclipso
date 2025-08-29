@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react'
 import BaseForm from './components/forms'
 import Homepage from './components/homepage'
-
 export default function App(): JSX.Element {
   const [login, setLogin] = useState<undefined | null | string>(undefined)
-
   useEffect(() => {
     const result = window.api.checkLogin()
     setLogin(result)
@@ -13,7 +11,9 @@ export default function App(): JSX.Element {
     return <div>Loading....</div>
   }
   return login !== null ? (
-    <Homepage login={login} setLogin={setLogin} />
+    <div>
+      <Homepage login={login} setLogin={setLogin} />
+    </div>
   ) : (
     <div>
       <BaseForm setLogin={setLogin} />
